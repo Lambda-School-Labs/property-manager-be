@@ -1,15 +1,22 @@
 const express = require("express");
-const authRouter = require("./routes/auth/");
 const bearerAuth = require("./lib/bearer-auth");
 const path = require('path');
 
-const app = express();
+// require router files
+const authRouter = require("./routes/auth/");
+const propertyRouter = require('./api/properties/property-router.js');
 
+const app = express();
 app.use(express.json());
 
+// Base Route
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname+'/index.html'));
+});
+
+// Routes
 app.use("/api/auth", authRouter);
-
-
+app.use('/api/properties', propertyRouter);
 
 app.get("/hello", (_req, res) => {
   res.send("Hello, world");
@@ -17,11 +24,6 @@ app.get("/hello", (_req, res) => {
 
 app.get("/protected", bearerAuth, (_req, res) => {
   res.send("Yay");
-});
-
-// Base Route
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname+'/index.html'));
 });
 
 module.exports = app;
