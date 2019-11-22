@@ -1,7 +1,14 @@
-const express = require('express');
+const app = require('../../server.js'); // Link to your server file
+const supertest = require('supertest');
+const request = supertest(app);
+const Reset = require('../dbReset.js');
 
-const History = require('./tenantHistory-model.js');
+// content used for tests
 
-const router = express.Router();
+describe('Properties Routes', () => {
 
-module.exports = router; 
+beforeEach(async () => {
+  await Reset.dbReset();
+})
+
+})
