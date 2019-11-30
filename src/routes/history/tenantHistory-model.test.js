@@ -20,14 +20,14 @@ describe('Tenant History Model', () => {
   
   describe('function getHistoryByProperty', () => {
     
-    it('Should return result of an array', async () => {
+    it('Should return result of an object', async () => {
       
       // call function
       try {
-        const results = await TenantHistory.getHistoryByProperty();
+        const results = await TenantHistory.getHistoryByProperty(1);
 
         // expected results
-        expect(typeof results).toBe('object');
+        expect(results).toHaveLength(2);
 
       } catch(err) {
         console.log(err)

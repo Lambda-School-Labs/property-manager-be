@@ -6,6 +6,13 @@ exports.seed = function(knex) {
       'tenantId': 3,
       'propertyId': 1,
       'historyStartdate': "01-01-2001",
+      'historyEnddate': "01-01-2010"
+    },
+    {
+      // id: 2, (auto)
+      'tenantId': 3,
+      'propertyId': 1,
+      'historyStartdate': "01-01-2012",
       'historyEnddate': null
     }
   ]);
