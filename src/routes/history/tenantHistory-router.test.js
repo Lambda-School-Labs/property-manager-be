@@ -12,7 +12,7 @@ beforeEach(async () => {
 })
 
 //#region - READ
-describe('get: \'/api/properties/\' endpoint', () => {
+describe('Get all tenant history results for property, by property id.', () => {
 
   it('should return 200 status', async done => {
     
