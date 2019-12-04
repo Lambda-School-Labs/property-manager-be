@@ -41,7 +41,7 @@ const Reset = require('../dbReset.js');
   };
   const landlordEmail = "landlord@email.com";
 
-describe('Properties Routes', () => {
+xdescribe('Properties Routes', () => {
 
   beforeEach(async () => {
     await Reset.dbReset();
