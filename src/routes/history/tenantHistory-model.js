@@ -6,6 +6,7 @@ module.exports = {
   // Read
   getHistoryById,
   getHistoryByProperty,
+  getHistoryByTenant
   // Update
   // Delete
 };
@@ -56,6 +57,24 @@ function getHistoryByProperty(id) {
       'tenanthistory.historyEnddate'
     )
     .where({ 'tenanthistory.propertyId': id });
+}
+
+// getHistoryByTenant() - Get all tenant history results by tenant id.
+function getHistoryByTenant(id) {
+  return db('tenanthistory')
+    .join('users', 'users.id', 'tenanthistory.tenantId')
+    .join('properties', 'properties.id', 'tenanthistory.propertyId')
+    .select(
+      'tenanthistory.id',
+      'properties.propertyName',
+      'tenanthistory.tenantId',
+      'users.name',
+      'users.email',
+      'users.phone',
+      'tenanthistory.historyStartdate',
+      'tenanthistory.historyEnddate'
+    )
+    .where({ 'tenanthistory.tenantId': id });
 }
 
 //#endregion
