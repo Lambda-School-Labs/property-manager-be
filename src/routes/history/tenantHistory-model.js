@@ -14,7 +14,7 @@ module.exports = {
 
 // addTenantHistory(input) - inserts input to tenant history table and return results by id
 async function addTenantHistory(input) {
-  const results = await db('properties').returning('id').insert(input);
+  const results = await db('tenanthistory').returning('id').insert(input);
   return getHistoryById(results[0]);
 }
 
@@ -46,6 +46,7 @@ function getHistoryByProperty(id) {
     .join('users', 'users.id', 'tenanthistory.tenantId')
     .join('properties', 'properties.id', 'tenanthistory.propertyId')
     .select(
+      'tenanthistory.id',
       'properties.propertyName',
       'tenanthistory.tenantId',
       'users.name',
