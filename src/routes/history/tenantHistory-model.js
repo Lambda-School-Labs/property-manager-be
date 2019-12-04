@@ -2,12 +2,23 @@ const db = require('../../../database/db-config.js');
 
 module.exports = {
   // Create
+  addTenantHistory,
   // Read
   getHistoryById,
   getHistoryByProperty,
   // Update
   // Delete
 };
+
+//#region - CREATE
+
+// addTenantHistory(input) - inserts input to tenant history table and return results by id
+async function addTenantHistory(input) {
+  const results = await db('properties').returning('id').insert(input);
+  return getHistoryById(results[0]);
+}
+
+//#endregion
 
 //#region - READ 
 
