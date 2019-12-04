@@ -5,6 +5,28 @@ const router = express.Router();
 
 //#region - READ
 
+// GET history by id
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const results = await History.getHistoryById(id);
+
+    // change date to a readable string
+    results.historyRawStartdate = results.historyStartdate
+    results.historyRawEnddate = results.historyEnddate
+    results.historyStartdate = parseDate.simple(results.historyStartdate)
+    results.historyEnddate = parseDate.simple(results.historyEnddate)
+
+    // TODO: link to new table with lease information, Maybe return lease information in an array sorted by start date
+
+    res.json(results);
+
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to get results.' });
+  }
+});
+
 // GET history by property id
 router.get('/property/:id', async (req, res) => {
   const { id } = req.params;
