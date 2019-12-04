@@ -5,7 +5,7 @@ const Reset = require('../dbReset.js');
 
 // content used for tests
 
-xdescribe('Tenant History Routes', () => {
+describe('Tenant History Routes', () => {
 
 beforeEach(async () => {
   await Reset.dbReset();
@@ -16,14 +16,14 @@ describe('get: \'/api/properties/\' endpoint', () => {
 
   it('should return 200 status', async done => {
     
-    const results = await request.get('/api/properties/');    
+    const results = await request.get('/api/history/property/1');    
     expect(results.status).toBe(200);
     done();
   })
 
   it('should return array', async done => {
     
-    const results = await request.get('/api/properties/');
+    const results = await request.get('/api/history/property/1');
     const response = await results.body;
   
     expect(Array.isArray(response)).toBe(true);
@@ -32,7 +32,7 @@ describe('get: \'/api/properties/\' endpoint', () => {
 
   it('should return a length of 1', async done => {
     
-    const results = await request.get('/api/properties/');
+    const results = await request.get('/api/history/property/1');
     const response = await results.body;
   
     expect(response).toHaveLength(1);
