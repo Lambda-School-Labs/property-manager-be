@@ -81,7 +81,6 @@ function getHistoryByTenant(id) {
 
 //#endregion
 
-
 //#region - Update
 
 async function updateHistory(changes, id) {
