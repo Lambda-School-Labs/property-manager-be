@@ -91,6 +91,27 @@ router.get('/tenant/:id', async (req, res) => {
   }
 });
 
-//#endregion 
+//#endregion
+
+//#region - UPDATE
+
+// Update history, returns updated entry
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  try {
+    const results = await History.updateHistory(changes, id);
+    if (results) {
+      res.json(results);
+    } else {
+      res.status(404).json({ message: 'Could not find property with given id.' });
+    }
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to update the property.' });
+  }
+});
+
+//#endregion  
 
 module.exports = router; 
