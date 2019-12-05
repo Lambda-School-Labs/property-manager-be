@@ -114,4 +114,33 @@ router.put('/:id', async (req, res) => {
 
 //#endregion  
 
+//#region - DELETE
+
+// delete tenant history entry, returns entry that was deleted
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const entryToDelete = await History.getHistoryById(id);
+
+    // check that property exists
+    if (entryToDelete) {
+      const results = await History.deleteHistory(id);
+
+      // check that delete returns
+      if (results) {
+        res.json(entryToDelete); // return the entry to be deleted.
+      } else {
+        res.status(404).json({ message: 'Could not delete entry.' });
+      }
+    } else {
+      res.status(404).json({ message: 'Could not find entry with given id.' });
+    }
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to delete entry.' });
+  }
+});
+
+//#endregion 
+
 module.exports = router; 
