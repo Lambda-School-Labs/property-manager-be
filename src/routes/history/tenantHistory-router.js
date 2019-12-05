@@ -3,6 +3,22 @@ const History = require('./tenantHistory-model.js');
 const parseDate = require('../../lib/parseDate.js');
 const router = express.Router();
 
+//#region - CREATE 
+
+// add a new entry for tenant history, returns entry added
+router.post('/', async (req, res) => {
+  const input = req.body;
+
+  try {
+    const results = await History.addTenantHistory(input);
+    res.status(201).json(results);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to create new entry.' });
+  }
+});
+
+//#endregion - CREATE
+
 //#region - READ
 
 // GET history by id
