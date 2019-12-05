@@ -8,8 +8,9 @@ module.exports = {
   getHistoryByProperty,
   getHistoryByTenant,
   // Update
-  updateHistory
+  updateHistory,
   // Delete
+  deleteHistory
 };
 
 //#region - CREATE
@@ -86,6 +87,15 @@ function getHistoryByTenant(id) {
 async function updateHistory(changes, id) {
   await db('tenanthistory').where({ id }).update(changes);
   return getHistoryById(id);
+}
+
+//#endregion
+
+//#region - Delete
+
+async function deleteHistory(id) {
+  const results = await db('tenanthistory').where({ id }).del();
+  return results;
 }
 
 //#endregion
