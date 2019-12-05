@@ -31,6 +31,7 @@ function getHistoryById(id) {
     .join('users', 'users.id', 'tenanthistory.tenantId')
     .join('properties', 'properties.id', 'tenanthistory.propertyId')
     .select(
+      'tenanthistory.propertyId',
       'properties.propertyName',
       'tenanthistory.tenantId',
       'users.name',
@@ -50,7 +51,6 @@ function getHistoryByProperty(id) {
     .join('properties', 'properties.id', 'tenanthistory.propertyId')
     .select(
       'tenanthistory.id',
-      'properties.propertyName',
       'tenanthistory.tenantId',
       'users.name',
       'users.email',
@@ -68,11 +68,8 @@ function getHistoryByTenant(id) {
     .join('properties', 'properties.id', 'tenanthistory.propertyId')
     .select(
       'tenanthistory.id',
+      'tenanthistory.propertyId',
       'properties.propertyName',
-      'tenanthistory.tenantId',
-      'users.name',
-      'users.email',
-      'users.phone',
       'tenanthistory.historyStartdate',
       'tenanthistory.historyEnddate'
     )
