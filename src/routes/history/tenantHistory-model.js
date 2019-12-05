@@ -31,6 +31,7 @@ function getHistoryById(id) {
     .join('users', 'users.id', 'tenanthistory.tenantId')
     .join('properties', 'properties.id', 'tenanthistory.propertyId')
     .select(
+      'tenanthistory.id',
       'tenanthistory.propertyId',
       'properties.propertyName',
       'tenanthistory.tenantId',
