@@ -6,8 +6,9 @@ module.exports = {
   // Read
   getHistoryById,
   getHistoryByProperty,
-  getHistoryByTenant
+  getHistoryByTenant,
   // Update
+  updateHistory
   // Delete
 };
 
@@ -75,6 +76,16 @@ function getHistoryByTenant(id) {
       'tenanthistory.historyEnddate'
     )
     .where({ 'tenanthistory.tenantId': id });
+}
+
+//#endregion
+
+
+//#region - Update
+
+async function updateHistory(changes, id) {
+  await db('tenanthistory').where({ id }).update(changes);
+  return getHistoryById(id);
 }
 
 //#endregion
