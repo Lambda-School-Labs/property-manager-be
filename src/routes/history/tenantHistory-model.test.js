@@ -17,6 +17,70 @@ describe('Tenant History Model', () => {
     done();
   })
 
+  //#region - CREATE
+  
+  describe('function addTenantHistory', () => {
+    
+    it('inserts input to tenant history table and return results by id', async () => {
+      
+      // call function
+      try {
+        const results = await TenantHistory.addTenantHistory(
+          { // id: 8
+            'tenantId': 5,
+            'propertyId': 1,
+            'historyStartdate': null,
+            'historyEnddate': null
+          });
+        
+        // parse date
+        results.historyStartdate = parseDate.simple(results.historyStartdate);
+        results.historyEnddate = parseDate.simple(results.historyEnddate);
+
+        // expected results
+        expect(results.id).toBe(8);
+        expect(results.propertyId).toBe(1);
+        expect(results.propertyName).toBe('Name for the Property');
+        expect(results.tenantId).toBe(5);
+        expect(results.historyStartdate).toBeNull();
+        expect(results.historyEnddate).toBeNull();
+
+      } catch(err) {
+        console.log(err)
+      }
+    })
+
+    it('Count of all entries should increase by 1', async () => {
+      try {
+        // count entries before insert
+        const dbBefore = await getAll();
+        const dbBeforeCount = dbBefore.length;
+
+        // call function        
+        await TenantHistory.addTenantHistory(
+          { // id: 8
+            'tenantId': 5,
+            'propertyId': 1,
+            'historyStartdate': null,
+            'historyEnddate': null
+          });
+
+        // count entries after insert
+        const dbAfter = await getAll();
+        const dbAfterCount = dbAfter.length;
+
+        // expected results -> Check Difference
+        expect(dbAfterCount - dbBeforeCount).toEqual(1);
+
+      } catch(err) {
+        console.log(err)
+      }
+    })
+
+  })
+
+  //#endregion
+
   //#region - READ 
   
   describe('function getHistoryById', () => {
@@ -136,6 +200,6 @@ describe('Tenant History Model', () => {
 
   })
 
-  //#endregion - READ
+  //#endregion
 
 })
