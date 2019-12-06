@@ -3,8 +3,11 @@ const supertest = require('supertest');
 const request = supertest(app);
 const Reset = require('../dbReset.js');
 
+// paths
+const baseRoute = '/api/history/';
+let path = baseRoute + '';
+
 // content used for tests
-let path = '/api/history/';
 
 describe('Tenant History Routes', () => {
 
@@ -14,42 +17,44 @@ describe('Tenant History Routes', () => {
   //#region - READ
 
   // GET: '/api/history/property' - Get all tenant history results for property, by property id.
-  describe('GET: \'' + path + 'property/\' endpoint', () => {
+  path = baseRoute + 'property/';
+
+  describe('GET: \'' + path + ':id\' endpoint', () => {
 
     // expected input
     const id = 1
-    path = path + 'property/' + id
+    path = path + id
 
-    it('should return 200 status', async () => {      
-      // call function  
+    it('should return 200 status', async () => {   
       try {   
-        const results = await request.get(path);   
+        // call function
+        const results = await request.get(path);  
+        // expected results
         expect(results.status).toBe(200);
-      } catch(err) {
-        console.log(err)
-      }
+        // catch error
+      } catch(err) { console.log(err) }
     })
 
-    it('should return a length of 1', async () => {    
-      // call function  
+    it('should return a length of 1', async () => { 
       try {   
+        // call function
         const results = await request.get(path);
-        const response = await results.body;    
+        const response = await results.body;   
+        // expected results 
         expect(response).toHaveLength(1);
-      } catch(err) {
-        console.log(err)
-      }
+        // catch error
+      } catch(err) { console.log(err) }
     })
 
-    it('should return array', async () => {  
-      // call function  
+    it('should return array', async () => {
       try {
+        // call function
         const results = await request.get(path);
-        const response = await results.body;  
+        const response = await results.body;   
+        // expected results 
         expect(Array.isArray(response)).toBe(true);
-      } catch(err) {
-        console.log(err)
-      }
+        // catch error
+      } catch(err) { console.log(err) }
     })
   })
 
