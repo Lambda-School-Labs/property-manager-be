@@ -300,4 +300,63 @@ describe('Tenant History Model', () => {
   
   //#endregion
 
+  //#region - Delete
+  
+  describe('function deleteHistory', () => {
+    // expected input
+    const id = 2
+
+    it('Should return count 1 for number of deleted entries', async () => {
+
+      try {
+        // call function
+        const results = await TenantHistory.deleteHistory(id);
+        // expected results
+        expect(results).toBe(1);
+      } catch(err) {
+        console.log(err)
+      }
+    })
+
+    it('Entry by id should return undefined after delete', async () => {
+
+      try {
+        // call function
+        await TenantHistory.deleteHistory(id);
+        // check database for the entry by id
+        const results = await TenantHistory.getHistoryById(id);
+        // expected results
+        expect(results).not.toBeDefined();
+      } catch(err) {
+        console.log(err)
+      }
+    })
+
+    it('Count of all entries should decrease by 1', async () => {
+
+      try {
+        // count properties before delete
+        const dbBefore = await getAll();
+        const dbBeforeCount = dbBefore.length;
+
+        // call function
+        await TenantHistory.deleteHistory(id);
+
+        // count properties after delete
+        const dbAfter = await getAll();
+        const dbAfterCount = dbAfter.length;
+
+        // expected results -> Count before delete minus count after delete should equal 1
+        expect(dbBeforeCount - dbAfterCount).toEqual(1);
+
+      } catch(err) {
+        console.log(err)
+      }
+    })
+
+  // })
+
+  })
+  //#endregion
+
 })
