@@ -84,12 +84,32 @@ describe('Tenant History Model', () => {
   //#region - READ 
   
   describe('function getHistoryById', () => {
-    
-    it('id 1 should return specific values', async () => {
+
+    it('Should return an object', async () => {
+
+      // Expected Input
+      const id = 1;
       
       // call function
       try {
-        const results = await TenantHistory.getHistoryById(1);
+        const results = await TenantHistory.getHistoryById(id);
+
+        // expected results
+        expect(typeof results).toBe('object');
+
+      } catch(err) {
+        console.log(err)
+      }
+    })
+    
+    it('id 1 should return specific values', async () => {
+
+      // Expected Input
+      const id = 1;
+      
+      // call function
+      try {
+        const results = await TenantHistory.getHistoryById(id);
         
         // parse date
         results.historyStartdate = parseDate.simple(results.historyStartdate);
@@ -200,6 +220,13 @@ describe('Tenant History Model', () => {
 
   })
 
+  //#endregion
+
+  //#region - Update
+  
+  //#endregion
+
+  //#region - Delete
   //#endregion
 
 })
