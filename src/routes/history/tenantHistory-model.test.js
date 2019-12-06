@@ -224,9 +224,80 @@ describe('Tenant History Model', () => {
 
   //#region - Update
   
-  //#endregion
+  describe('function updateHistory', () => {
 
-  //#region - Delete
+    it('Update Should return an object', async () => {
+
+      // Expected Input
+      const id = 1;
+      const updatedEntry = { tenantId: 5 }
+      
+      // call function
+      try {
+        const results = await TenantHistory.updateHistory(updatedEntry, id);
+
+        // expected results
+        expect(typeof results).toBe('object');
+
+      } catch(err) {
+        console.log(err)
+      }
+    })
+    
+    it('Update Should return specific values', async () => {
+
+      // Expected Input
+      const id = 1;
+      const updatedEntry = { tenantId: 5 }
+      
+      // call function
+      try {
+        const results = await TenantHistory.updateHistory(updatedEntry, id);
+        
+        // parse date
+        results.historyStartdate = parseDate.simple(results.historyStartdate);
+        results.historyEnddate = parseDate.simple(results.historyEnddate);
+
+        // expected results
+        expect(results.propertyId).toBe(2);
+        expect(results.propertyName).toBe('Sample');
+        expect(results.tenantId).toBe(5);
+        expect(results.name).toMatchObject({ firstname: 'Second', lastname: 'Tenant' });
+        expect(results.email).toBe('tenant2@email.com');
+        expect(results.phone).toBeNull();
+        expect(results.historyStartdate).toBe('01/01/2001');
+        expect(results.historyEnddate).toBe('12/31/2009');
+
+      } catch(err) {
+        console.log(err)
+      }
+    })
+    
+    it('Update dates should return specific dates', async () => {
+
+      // Expected Input
+      const id = 2;
+      const updatedEntry = { historyEnddate: '11/30/2019' }
+      
+      // call function
+      try {
+        const results = await TenantHistory.updateHistory(updatedEntry, id);
+        
+        // parse date
+        results.historyStartdate = parseDate.simple(results.historyStartdate);
+        results.historyEnddate = parseDate.simple(results.historyEnddate);
+
+        // expected results
+        expect(results.propertyId).toBe(1);
+        expect(results.historyEnddate).toBe('11/30/2019');
+
+      } catch(err) {
+        console.log(err)
+      }
+    })
+
+  })
+  
   //#endregion
 
 })
