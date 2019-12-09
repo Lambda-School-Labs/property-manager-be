@@ -164,7 +164,7 @@ describe('Tenant History Routes', () => {
   // #endregion
 
   //#region - UPDATE
-  describe ('PUT: \'' + path + '\' endpoint', () => {
+  describe ('PUT: \'' + path + '/:id\' endpoint', () => {
 
     // expected input
     const id = 1 // expects id from url
@@ -197,6 +197,61 @@ describe('Tenant History Routes', () => {
 
   //#endregion - UPDATE 
 
+  //#region - DELETE
+  describe ('delete: \'' + path + '/:id\' endpoint', () => {
 
+    // expected input
+    const id = 1 // expects id from url
 
+    it('should return 200 status', async () => {
+      try {
+        // call function
+        const results = await request.delete(path + id);
+        // expected results
+        expect(results.status).toBe(200);
+      } catch(err) {
+        console.log(err)
+      }
+    })
+
+    it('should return an object', async () => { 
+      expect.hasAssertions();
+      try {   
+        // call function
+        const results = await request.delete(path + id);
+        const response = await results.body;   
+        // expected results 
+        expect(typeof response).toBe('object');
+        // catch error
+      } catch(err) { console.log(err) }
+    })
+
+    // Failed Test
+    it('should fail if id is not valid with status 404', async () => {
+      try {
+        // call function
+        const results = await request.delete(path + '999');
+        // expected results
+        expect(results.status).toBe(404);
+      } catch(err) {
+        console.log(err)
+      }
+    })
+
+    it('should fail if id is not valid with message', async () => {
+      try {
+        // call function
+        const results = await request.delete(path + '999');
+        const response = JSON.parse(results.text);
+        // expected results
+        expect(response).toHaveProperty('message');
+        expect(response).toEqual({"message": "Could not find entry with given id."});
+      } catch(err) {
+        console.log(err)
+      }
+    })
+
+  })
+
+  //#endregion - DELETE 
 })
