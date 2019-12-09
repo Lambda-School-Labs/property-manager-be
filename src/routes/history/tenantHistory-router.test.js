@@ -24,7 +24,7 @@ const path = '/api/history/';
     'historyStartdate': "01-01-2001",
     'historyEnddate': "12-31-2010"
   }
-// # endregion
+// #endregion
 
 describe('Tenant History Routes', () => {
 
@@ -41,6 +41,7 @@ describe('Tenant History Routes', () => {
     // expects object - createInput or createInput2
 
     it('should return 201 status', async () => {
+      expect.hasAssertions();
       try {
         // call function
         const results = await request.post(path).send(createInput);
@@ -51,6 +52,7 @@ describe('Tenant History Routes', () => {
     })
 
     it('should return a matching object', async () => {
+      expect.hasAssertions();
       try {
         // call function
         const results = await request.post(path).send(createInput2);
@@ -76,7 +78,6 @@ describe('Tenant History Routes', () => {
 
     it('should return 200 status', async () => {
       expect.hasAssertions();
-
       try {   
         // call function
         const results = await request.get(path + id);  
@@ -87,6 +88,7 @@ describe('Tenant History Routes', () => {
     })
 
     it('should return an object', async () => { 
+      expect.hasAssertions();
       try {   
         // call function
         const results = await request.get(path + id);
@@ -105,8 +107,7 @@ describe('Tenant History Routes', () => {
     const id = 1 // property id
 
     it('should return 200 status', async done => {
-      expect.assertions(1);
-      
+      expect.hasAssertions();
       try {   
         // call function
         const results = await request.get(path + 'property/' + id);  
@@ -118,8 +119,7 @@ describe('Tenant History Routes', () => {
     })
 
     it('should return array', async () => {
-      expect.assertions(1);
-
+      expect.hasAssertions();
       try {
         // call function
         const results = await request.get(path + 'property/' + id);
@@ -138,7 +138,7 @@ describe('Tenant History Routes', () => {
     const id = 3 // tenant id
 
     it('should return 200 status', async () => {   
-      expect.assertions(1);
+      expect.hasAssertions();
       try {   
         // call function
         const results = await request.get(path + 'tenant/' + id);  
@@ -149,7 +149,7 @@ describe('Tenant History Routes', () => {
     })
 
     it('should return array', async () => {
-      expect.assertions(1);
+      expect.hasAssertions();
       try {
         // call function
         const results = await request.get(path + 'tenant/' + id);
