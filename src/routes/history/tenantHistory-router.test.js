@@ -7,7 +7,7 @@ const Reset = require('../dbReset.js');
 
 // paths
 const baseRoute = '/api/history/';
-let path = baseRoute + '';
+let path = baseRoute;
 
 // content used for tests
 
@@ -20,8 +20,6 @@ describe('Tenant History Routes', () => {
   //#region - CREATE
   
   // POST: '/api/history/' - add a new entry for tenant history, returns entry added
-  path = baseRoute;
-
   describe ('POST: \'' + path + '\' endpoint', () => {
 
     // expected input
