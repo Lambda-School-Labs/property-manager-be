@@ -6,8 +6,7 @@ const request = supertest(app);
 const Reset = require('../dbReset.js');
 
 // paths
-const baseRoute = '/api/history/';
-let path = baseRoute;
+const path = '/api/history/';
 
 // content used for tests
 
@@ -36,7 +35,6 @@ describe('Tenant History Routes', () => {
     }
 
     it('should return 201 status', async () => {
-      expect.assertions(1);
       try {
         // call function
         const results = await request.post(path).send(input);
@@ -47,7 +45,6 @@ describe('Tenant History Routes', () => {
     })
 
     it('should return an object', async () => {
-      expect.assertions(1);
       try {
         // call function
         const results = await request.post(path).send(input2);
@@ -64,23 +61,49 @@ describe('Tenant History Routes', () => {
 
   //#region - READ
 
-  // GET: '/api/history/property' - Get all tenant history results for property, by property id.
-  path = baseRoute + 'property/';
-
+  // GET: '/api/history/:id' - Get by id
   describe('GET: \'' + path + ':id\' endpoint', () => {
 
     // expected input
     const id = 1
-    path = path + id
 
-    it('should return 200 status', async () => {
+    it('should return 200 status', async () => {   
+      try {   
+        // call function
+        const results = await request.get(path + id);  
+        // expected results
+        expect(results.status).toBe(200);
+        // catch error
+      } catch(err) { console.log(err) }
+    })
+
+    it('should return an object', async () => { 
+      try {   
+        // call function
+        const results = await request.get(path + id);
+        const response = await results.body;   
+        // expected results 
+        expect(typeof response).toBe('object');
+        // catch error
+      } catch(err) { console.log(err) }
+    })
+  })
+
+  // GET: '/api/history/property' - Get all tenant history results for property, by property id.
+  describe('GET: \'' + path + 'property/:id\' endpoint', () => {
+
+    // expected input
+    const id = 1
+
+    it('should return 200 status', async done => {
       expect.assertions(1);
       
       try {   
         // call function
-        const results = await request.get(path);  
+        const results = await request.get(path + 'property/' + id);  
         // expected results
         expect(results.status).toBe(200);
+        done();
         // catch error
       } catch(err) { console.log(err) }
     })
@@ -90,10 +113,9 @@ describe('Tenant History Routes', () => {
 
       try {
         // call function
-        const results = await request.get(path);
-        const response = await results.body;   
+        const results = await request.get(path + 'property/' + id);
         // expected results 
-        expect(Array.isArray(response)).toBe(true);
+        expect(Array.isArray(results.body)).toBe(true);
         // catch error
       } catch(err) { console.log(err) }
     })
