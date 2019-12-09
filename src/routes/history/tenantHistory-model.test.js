@@ -1,7 +1,9 @@
 const db = require('../../../database/db-config.js');
-const Reset = require('../dbReset.js');
 const TenantHistory = require('./tenantHistory-model');
 const parseDate = require('../../lib/parseDate.js');
+
+// Reset Database
+const Reset = require('../dbReset.js');
 
 // functions for tests
 function getAll() { return db('tenanthistory') }
@@ -15,6 +17,8 @@ describe('Tenant History Model', () => {
   afterEach( async done => {
     done();
   })
+  
+  afterAll(() => Reset.close());
 
   //#region - CREATE
   
