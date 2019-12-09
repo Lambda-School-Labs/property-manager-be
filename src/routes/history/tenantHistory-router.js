@@ -39,7 +39,7 @@ router.get('/:id', async (req, res) => {
     res.json(results);
 
   } catch (err) {
-    res.status(500).json({ message: 'Failed to get results.' });
+    res.status(500).json({ message: 'Failed to get results for given id.' });
   }
 });
 
@@ -63,7 +63,7 @@ router.get('/property/:id', async (req, res) => {
     res.json(results);
 
   } catch (err) {
-    res.status(500).json({ message: 'Failed to get results.' });
+    res.status(500).json({ message: 'Failed to get results for given property id.' });
   }
 });
 
@@ -87,7 +87,7 @@ router.get('/tenant/:id', async (req, res) => {
     res.json(results);
 
   } catch (err) {
-    res.status(500).json({ message: 'Failed to get results.' });
+    res.status(500).json({ message: 'Failed to get results for given tenant id.' });
   }
 });
 
@@ -105,10 +105,10 @@ router.put('/:id', async (req, res) => {
     if (results) {
       res.json(results);
     } else {
-      res.status(404).json({ message: 'Could not find property with given id.' });
+      res.status(404).json({ message: 'Could not find entry with given id.' });
     }
   } catch (err) {
-    res.status(500).json({ message: 'Failed to update the property.' });
+    res.status(500).json({ message: 'Failed to update the entry.' });
   }
 });
 

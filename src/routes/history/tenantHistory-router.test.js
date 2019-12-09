@@ -8,7 +8,23 @@ const Reset = require('../dbReset.js');
 // paths
 const path = '/api/history/';
 
-// content used for tests
+// #region - Content used for tests
+  const createInput = {
+    'tenantId': 3,
+    'propertyId': 5,
+    'historyStartdate': "01-01-2001",
+    'historyEnddate': "12-31-2006"
+  }
+  const createInput2 = {
+    'tenantId': 5,
+    'propertyId': 1,
+    'historyStartdate': null
+  }
+  const updateInput = {
+    'historyStartdate': "01-01-2001",
+    'historyEnddate': "12-31-2010"
+  }
+// # endregion
 
 describe('Tenant History Routes', () => {
 
@@ -22,35 +38,26 @@ describe('Tenant History Routes', () => {
   describe ('POST: \'' + path + '\' endpoint', () => {
 
     // expected input
-    const input = {
-      'tenantId': 3,
-      'propertyId': 5,
-      'historyStartdate': "01-01-2001",
-      'historyEnddate': "12-31-2006"
-    }
-    const input2 = {
-      'tenantId': 5,
-      'propertyId': 1,
-      'historyStartdate': null
-    }
+    // expects object - createInput or createInput2
 
     it('should return 201 status', async () => {
       try {
         // call function
-        const results = await request.post(path).send(input);
+        const results = await request.post(path).send(createInput);
         // expected results
         expect(results.status).toBe(201);
         // catch error
       } catch(err) { console.log(err) }
     })
 
-    it('should return an object', async () => {
+    it('should return a matching object', async () => {
       try {
         // call function
-        const results = await request.post(path).send(input2);
+        const results = await request.post(path).send(createInput2);
         const response = await results.body;
         // expected results
         expect(typeof response).toBe('object');
+        expect(response).toMatchObject(createInput2);
         // catch error
       } catch(err) { console.log(err) }
     })
@@ -67,7 +74,9 @@ describe('Tenant History Routes', () => {
     // expected input
     const id = 1
 
-    it('should return 200 status', async () => {   
+    it('should return 200 status', async () => {
+      expect.hasAssertions();
+
       try {   
         // call function
         const results = await request.get(path + id);  
@@ -81,7 +90,7 @@ describe('Tenant History Routes', () => {
       try {   
         // call function
         const results = await request.get(path + id);
-        const response = await results.body;   
+        const response = results.body;   
         // expected results 
         expect(typeof response).toBe('object');
         // catch error
@@ -89,11 +98,11 @@ describe('Tenant History Routes', () => {
     })
   })
 
-  // GET: '/api/history/property' - Get all tenant history results for property, by property id.
+  // GET: '/api/history/property/:id' - Get all tenant history results for property, by property id.
   describe('GET: \'' + path + 'property/:id\' endpoint', () => {
 
     // expected input
-    const id = 1
+    const id = 1 // property id
 
     it('should return 200 status', async done => {
       expect.assertions(1);
@@ -122,6 +131,72 @@ describe('Tenant History Routes', () => {
 
   })
 
+  // GET: '/api/history/tenant/:id' - Get all tenant history results by tenant id.
+  describe('GET: \'' + path + 'tenant/:id\' endpoint', () => {
+
+    // expected input
+    const id = 3 // tenant id
+
+    it('should return 200 status', async () => {   
+      expect.assertions(1);
+      try {   
+        // call function
+        const results = await request.get(path + 'tenant/' + id);  
+        // expected results
+        expect(results.status).toBe(200);
+        // catch error
+      } catch(err) { console.log(err) }
+    })
+
+    it('should return array', async () => {
+      expect.assertions(1);
+      try {
+        // call function
+        const results = await request.get(path + 'tenant/' + id);
+        const response = results.body;   
+        // expected results 
+        expect(Array.isArray(response)).toBe(true);
+        // catch error
+      } catch(err) { console.log(err) }
+    })
+  })
+
   // #endregion
+
+  //#region - UPDATE
+  describe ('PUT: \'' + path + '\' endpoint', () => {
+
+    // expected input
+    const id = 1 // expects id from url
+    // expects object to be sent - updateInput
+
+    it('should return 200 status', async () => {
+      expect.hasAssertions();
+      try {
+        // call function
+        const results = await request.put(path + id).send(updateInput);
+        // expected results
+        expect(results.status).toBe(200);
+      } catch(err) {
+        console.log(err)
+      }
+    })
+
+    it('should return an object', async () => { 
+      expect.hasAssertions();
+      try {   
+        // call function
+        const results = await request.put(path + id).send(updateInput);
+        const response = await results.body;   
+        // expected results 
+        expect(typeof response).toBe('object');
+        // catch error
+      } catch(err) { console.log(err) }
+    })
+  })
+
+  //#endregion - UPDATE 
+
+
 
 })
