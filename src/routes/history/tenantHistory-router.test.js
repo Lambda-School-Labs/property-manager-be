@@ -1,6 +1,8 @@
 const app = require('../../server.js'); // Link to your server file
 const supertest = require('supertest');
 const request = supertest(app);
+
+// Reset Database
 const Reset = require('../dbReset.js');
 
 // paths
@@ -11,7 +13,8 @@ let path = baseRoute + '';
 
 describe('Tenant History Routes', () => {
 
-  beforeEach(async () => await Reset.dbReset());
+  beforeAll(async () => await Reset.dbReset());
+  afterAll(() => Reset.close());
   afterEach(async done => done());
 
   //#region - READ
@@ -25,7 +28,9 @@ describe('Tenant History Routes', () => {
     const id = 1
     path = path + id
 
-    it('should return 200 status', async () => {   
+    it('should return 200 status', async () => {
+      expect.assertions(1);
+      
       try {   
         // call function
         const results = await request.get(path);  
@@ -35,18 +40,9 @@ describe('Tenant History Routes', () => {
       } catch(err) { console.log(err) }
     })
 
-    it('should return a length of 1', async () => { 
-      try {   
-        // call function
-        const results = await request.get(path);
-        const response = await results.body;   
-        // expected results 
-        expect(response).toHaveLength(1);
-        // catch error
-      } catch(err) { console.log(err) }
-    })
-
     it('should return array', async () => {
+      expect.assertions(1);
+
       try {
         // call function
         const results = await request.get(path);
@@ -56,6 +52,7 @@ describe('Tenant History Routes', () => {
         // catch error
       } catch(err) { console.log(err) }
     })
+
   })
 
   // #endregion
