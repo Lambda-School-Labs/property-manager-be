@@ -77,9 +77,7 @@ router.get('/tenant/:id', async (req, res) => {
       x.historyEnddate = parseDate.simple(x.historyEnddate)
       return x
     })
-
-    // TODO: link to new table with lease information, Maybe return lease information in an array sorted by start date
-
+    
     res.json(results);
 
   } catch (err) {

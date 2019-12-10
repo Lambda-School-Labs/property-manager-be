@@ -6,7 +6,7 @@ const Properties = require('./property-model.js');
 // functions for tests
 function getPropsAll() { return db('properties') }
 
-xdescribe('Property Model', () => {
+describe('Property Model', () => {
 
   const newProperty = {
     "propertyName": "New Property Added",

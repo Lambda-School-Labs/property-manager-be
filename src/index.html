@@ -140,7 +140,7 @@
         <h3 class="moreInfo" onclick="{showContent('tenantHistoryEndpoints')}">Tenant History Endpoints</h3>
         <div id="tenantHistoryEndpoints" class="show">
           <ul> Create:
-            <li onclick="{epTenantHistoryAdd()}">Add Tenant History - in progress</li>
+            <li onclick="{epTenantHistoryAdd()}">Add Tenant History</li>
           </ul>
           <ul> Read:
             <li onclick="{epTenantHistory()}">Tenant History - Get by Id</li>
@@ -148,10 +148,10 @@
             <li onclick="{epTenantHistoryTenant()}">Tenant History - Get by Tenant</li>
           </ul>
           <ul> Update:
-            <li onclick="{epTenantHistoryUpdate()}">Update Tenant History - in progress</li>
+            <li onclick="{epTenantHistoryUpdate()}">Update Tenant History</li>
           </ul>
           <ul> Delete:
-            <li onclick="{epTenantHistoryDelete()}">Delete Tenant History - in progress</li>
+            <li onclick="{epTenantHistoryDelete()}">Delete Tenant History</li>
           </ul>
         </div>
 
@@ -823,13 +823,27 @@
             endpoint: "/api/history/",
             type: "post",
             description: "Add Entry for Tenant History",
-            expectedInput: {},
+            expectedInput: {
+              'tenantId': 5,
+              'propertyId': 1,
+              'historyStartdate': "12-31-2018"
+            },
             sampleRequest: {
               axiosThen: "response => console.log&lpar;response&rpar;",
               axiosCatch: "err => console.error&lpar;err&rpar;",
             }, 
-            expectedReturn: {},
-            expectedFailedReturn: "Expected Return if Fails."
+            expectedReturn: {
+              id: 9,
+              propertyId: 1,
+              propertyName: 'Name for the Property',
+              tenantId: 5,
+              name: { firstname: 'Second', lastname: 'Tenant' },
+              email: 'tenant2@email.com',
+              phone: null,
+              historyStartdate: '2018-12-31T05:00:00.000Z',
+              historyEnddate: null 
+            },
+            expectedFailedReturn: { message: 'Failed to create new entry.' }
           }
 
           outputContent = endPoints(input);
@@ -845,13 +859,29 @@
             endpoint: "/api/history/:id",
             type: "put",
             description: "Update Entry for Tenant History by Id",
-            expectedInput: {},
+            expectedInput: {
+              'historyStartdate': "01-01-2001",
+              'historyEnddate': "12-31-2010"
+            },
             sampleRequest: {
               axiosThen: "response => console.log&lpar;response&rpar;",
               axiosCatch: "err => console.error&lpar;err&rpar;",
             }, 
-            expectedReturn: {},
-            expectedFailedReturn: "Expected Return if Fails."
+            expectedReturn: {
+              id: 1,
+              propertyId: 2,
+              propertyName: 'Sample',
+              tenantId: 3,
+              name: { firstname: 'Tenant' },
+              email: 'tenant@email.com',
+              phone: null,
+              historyStartdate: '2001-01-01T05:00:00.000Z',
+              historyEnddate: '2010-12-31T05:00:00.000Z' 
+            },
+            expectedFailedReturn: [
+              { message: 'Could not find entry with given id.' },
+              { message: 'Failed to update the entry.' }
+          ]
           }
 
           outputContent = endPoints(input);
@@ -867,13 +897,27 @@
             endpoint: "/api/history/:id",
             type: "delete",
             description: "Delete Entry for Tenant History by Id",
-            expectedInput: {},
+            expectedInput: "",
             sampleRequest: {
               axiosThen: "response => console.log&lpar;response&rpar;",
               axiosCatch: "err => console.error&lpar;err&rpar;",
             }, 
-            expectedReturn: {},
-            expectedFailedReturn: "Expected Return if Fails."
+            expectedReturn: {
+              id: 2,
+              propertyId: 1,
+              propertyName: 'Name for the Property',
+              tenantId: 3,
+              name: { firstname: 'Tenant' },
+              email: 'tenant@email.com',
+              phone: null,
+              historyStartdate: '2010-01-01T05:00:00.000Z',
+              historyEnddate: null
+            },
+            expectedFailedReturn: [
+              { message: 'Could not delete entry.' },
+              { message: 'Could not find entry with given id.' },
+              { message: 'Failed to delete entry.' }
+            ]
           }
 
           outputContent = endPoints(input);

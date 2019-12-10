@@ -287,7 +287,7 @@ describe('Tenant History Routes', () => {
     it('should return 200 status', async () => {
       try {
         // call function
-        const results = await request.delete(path + id);
+        const results = await request.delete(path + id); 
         // expected results
         expect(results.status).toBe(200);
       } catch(err) {
@@ -299,8 +299,8 @@ describe('Tenant History Routes', () => {
       expect.hasAssertions();
       try {   
         // call function
-        const results = await request.delete(path + id);
-        const response = await results.body;   
+        const results = await request.delete(path + "3");
+        const response = await results.body;  
         // expected results 
         expect(typeof response).toBe('object');
         // catch error
