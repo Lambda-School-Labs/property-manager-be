@@ -18,7 +18,7 @@ const path = '/api/history/';
   const createInput2 = {
     'tenantId': 5,
     'propertyId': 1,
-    'historyStartdate': null
+    'historyStartdate': "12-31-2018"
   }
   const updateInput = {
     'historyStartdate': "01-01-2001",
@@ -59,9 +59,25 @@ describe('Tenant History Routes', () => {
         const response = await results.body;
         // expected results
         expect(typeof response).toBe('object');
-        expect(response).toMatchObject(createInput2);
+        // expect(response).toMatchObject(createInput2);
+        expect(response.tenantId).toBe(5);
+        expect(response.propertyId).toBe(1);
+        expect(response.historyStartdate).toContain("2018-12-31");
         // catch error
       } catch(err) { console.log(err) }
+    })
+
+    // Failed Test 
+    it('should fail if input is empty', async () => {
+      expect.hasAssertions();
+      try {
+        // call function
+        const results = await request.post(path).send({});
+        // expected results
+        expect(results.status).toBe(500);
+      } catch(err) {
+        console.log(err)
+      }
     })
 
   })
