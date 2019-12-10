@@ -193,6 +193,35 @@ describe('Tenant History Routes', () => {
         // catch error
       } catch(err) { console.log(err) }
     })
+
+    // Failed Test 
+    it('should fail if id is not valid', async () => {
+      expect.hasAssertions();
+      try {
+        // call function
+        const results = await request.put(path + '999').send(updateInput);
+        const response = JSON.parse(results.text);
+        // expected results
+        expect(results.status).toBe(404);
+        expect(response).toHaveProperty('message');
+        expect(response).toEqual({"message": "Could not find entry with given id."});
+      } catch(err) {
+        console.log(err)
+      }
+    })
+
+    it('should fail if update is empty', async () => {
+      expect.hasAssertions();
+      try {
+        // call function
+        const results = await request.put(path + id).send({});
+        // expected results
+        expect(results.status).toBe(500);
+      } catch(err) {
+        console.log(err)
+      }
+    })
+    
   })
 
   //#endregion - UPDATE 
@@ -201,7 +230,7 @@ describe('Tenant History Routes', () => {
   describe ('delete: \'' + path + '/:id\' endpoint', () => {
 
     // expected input
-    const id = 1 // expects id from url
+    const id = 2 // expects id from url
 
     it('should return 200 status', async () => {
       try {
