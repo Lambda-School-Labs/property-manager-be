@@ -114,6 +114,18 @@ describe('Tenant History Routes', () => {
         // catch error
       } catch(err) { console.log(err) }
     })
+
+    // Failed Test
+    it('should fail if id is not valid with status 404', async () => {
+      try {
+        // call function
+        const results = await request.delete(path + '999');
+        // expected results
+        expect(results.status).toBe(404);
+      } catch(err) {
+        console.log(err)
+      }
+    })
   })
 
   // GET: '/api/history/property/:id' - Get all tenant history results for property, by property id.
@@ -145,6 +157,18 @@ describe('Tenant History Routes', () => {
       } catch(err) { console.log(err) }
     })
 
+    // Failed Test
+    it('should fail if id is not valid with status 404', async () => {
+      try {
+        // call function
+        const results = await request.delete(path + '999');
+        // expected results
+        expect(results.status).toBe(404);
+      } catch(err) {
+        console.log(err)
+      }
+    })
+
   })
 
   // GET: '/api/history/tenant/:id' - Get all tenant history results by tenant id.
@@ -174,6 +198,18 @@ describe('Tenant History Routes', () => {
         expect(Array.isArray(response)).toBe(true);
         // catch error
       } catch(err) { console.log(err) }
+    })
+
+    // Failed Test
+    it('should fail if id is not valid with status 404', async () => {
+      try {
+        // call function
+        const results = await request.delete(path + '999');
+        // expected results
+        expect(results.status).toBe(404);
+      } catch(err) {
+        console.log(err)
+      }
     })
   })
 
