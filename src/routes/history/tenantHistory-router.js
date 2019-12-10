@@ -34,8 +34,6 @@ router.get('/:id', async (req, res) => {
     results.historyStartdate = parseDate.simple(results.historyStartdate)
     results.historyEnddate = parseDate.simple(results.historyEnddate)
 
-    // TODO: link to new table with lease information, Maybe return lease information in an array sorted by start date
-
     res.json(results);
 
   } catch (err) {
@@ -57,8 +55,6 @@ router.get('/property/:id', async (req, res) => {
       x.historyEnddate = parseDate.simple(x.historyEnddate)
       return x
     })
-
-    // TODO: link to new table with lease information, Maybe return lease information in an array sorted by start date
 
     res.json(results);
 

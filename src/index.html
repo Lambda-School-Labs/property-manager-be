@@ -138,13 +138,14 @@
         </div>
 
         <h3 class="moreInfo" onclick="{showContent('tenantHistoryEndpoints')}">Tenant History Endpoints</h3>
-        <div id="tenantHistoryEndpoints" class="hid">
+        <div id="tenantHistoryEndpoints" class="show">
           <ul> Create:
             <li onclick="{epTenantHistoryAdd()}">Add Tenant History - in progress</li>
           </ul>
           <ul> Read:
+            <li onclick="{epTenantHistory()}">Tenant History - Get by Id</li>
             <li onclick="{epTenantHistoryProperty()}">Tenant History - Get by Property</li>
-            <li onclick="{epTenantHistory()}">Tenant History - Get by Tenant</li>
+            <li onclick="{epTenantHistoryTenant()}">Tenant History - Get by Tenant</li>
           </ul>
           <ul> Update:
             <li onclick="{epTenantHistoryUpdate()}">Update Tenant History - in progress</li>
@@ -162,7 +163,6 @@
         </div>
         
       </div> 
-    
       
       <h2 class="moreInfo" onclick="{showContent('database')}"><button>v</button> Database Structure</h2>
       <div id="database" class="hid">
@@ -326,12 +326,20 @@
 
       // Tenant History
       const tenantHistory = {
-        TenantHistoryId: 1,
-        'tenantId': 3,
-        'propertyId': 1,
-        'historyStartdate': "01-01-2001",
-        'historyEnddate': null
-      }
+        "id": 2,
+        "propertyId": 1,
+        "propertyName": "Name for the Property",
+        "tenantId": 3,
+        "name": {
+          "firstname": "Tenant"
+        },
+        "email": "tenant@email.com",
+        "phone":null,
+        "historyStartdate": "01/01/2010",
+        "historyEnddate": null,
+        "historyRawStartdate": "2010-01-01T05:00:00.000Z",
+        "historyRawEnddate": null
+      };
 
       // Work Orders
 
@@ -414,7 +422,7 @@
         
         // sample request
         sampleRequest.type = type.toLowerCase();
-        sampleRequest.address = "example.com" + endpoint;
+        sampleRequest.address = "https://pt6-propman.herokuapp.com" + endpoint;
         sampleRequest.input = expectedInput;
 
         // If type == GET, make header a link with the endpoint
@@ -711,11 +719,33 @@
       // #endregion
 
       // #region - Tenant History End Points
+      
+        // Tenant History Endpoint - Get by Id
+        function epTenantHistory() {
+          let input = {
+            header: "Tenant History Endpoint - Get by Id",
+            todo: "",
+            comment: "",
+            endpoint: "/api/history/:id",
+            type: "get",
+            description: "Get tenant history results for given id.",
+            expectedInput: "",
+            sampleRequest: {
+              axiosThen: "response => console.log&lpar;response&rpar;",
+              axiosCatch: "err => console.error&lpar;err&rpar;",
+            }, 
+            expectedReturn: tenantHistory,
+            expectedFailedReturn: { message: 'Failed to get results for given id.' }
+          }
 
+          outputContent = endPoints(input);
+          output(outputContent);
+        };
+        
         // Tenant History Endpoint - Get by Property
         function epTenantHistoryProperty() {
           let input = {
-            header: "Tenant History Endpoint - Get by Property",
+            header: "Tenant History Endpoint - Get Results by Property",
             todo: "",
             comment: "",
             endpoint: "/api/history/property/:id",
@@ -726,8 +756,19 @@
               axiosThen: "response => console.log&lpar;response&rpar;",
               axiosCatch: "err => console.error&lpar;err&rpar;",
             }, 
-            expectedReturn: "",
-            expectedFailedReturn: ""
+            expectedReturn: [
+              {
+                "id":2,
+                "tenantId":3,
+                "name":{"firstname":"Tenant"},
+                "email":"tenant@email.com",
+                "phone":null,
+                "historyStartdate":"01/01/2010",
+                "historyEnddate":null,
+                "historyRawStartdate":"2010-01-01T05:00:00.000Z"
+              }
+            ],
+            expectedFailedReturn: { message: 'Failed to get results for given property id.' }
           }
 
           outputContent = endPoints(input);
@@ -735,9 +776,9 @@
         };
 
         // Tenant History Endpoint - Get by Tenant
-        function epTenantHistory() {
+        function epTenantHistoryTenant() {
           let input = {
-            header: "Tenant History Endpoint - Get by Tenant",
+            header: "Tenant History Endpoint - Get Results by Tenant",
             todo: "",
             comment: "",
             endpoint: "/api/history/tenant/:id",
@@ -748,8 +789,91 @@
               axiosThen: "response => console.log&lpar;response&rpar;",
               axiosCatch: "err => console.error&lpar;err&rpar;",
             }, 
-            expectedReturn: "",
-            expectedFailedReturn: ""
+            expectedReturn: [
+              {
+                "id":1,
+                "propertyId":2,
+                "propertyName":"Sample",
+                "historyStartdate":"01/01/2001",
+                "historyEnddate":"12/31/2009",
+                "historyRawStartdate":"2001-01-01T05:00:00.000Z"
+              },
+              {
+                "id":2,
+                "propertyId":1,
+                "propertyName":"Name for the Property",
+                "historyStartdate":"01/01/2010",
+                "historyEnddate":null,
+                "historyRawStartdate":"2010-01-01T05:00:00.000Z"
+              }
+            ],
+            expectedFailedReturn: { message: 'Failed to get results for given tenant id.' }
+          }
+
+          outputContent = endPoints(input);
+          output(outputContent);
+        };
+
+        // Tenant History Endpoint - Add
+        function epTenantHistoryAdd() {
+          let input = {
+            header: "Tenant History Endpoint - Add Entry",
+            todo: "",
+            comment: "",
+            endpoint: "/api/history/",
+            type: "post",
+            description: "Add Entry for Tenant History",
+            expectedInput: {},
+            sampleRequest: {
+              axiosThen: "response => console.log&lpar;response&rpar;",
+              axiosCatch: "err => console.error&lpar;err&rpar;",
+            }, 
+            expectedReturn: {},
+            expectedFailedReturn: "Expected Return if Fails."
+          }
+
+          outputContent = endPoints(input);
+          output(outputContent);
+        };
+
+        // Tenant History Endpoint - Update
+        function epTenantHistoryUpdate() {
+          let input = {
+            header: "Tenant History Endpoint - Update Entry",
+            todo: "",
+            comment: "",
+            endpoint: "/api/history/:id",
+            type: "put",
+            description: "Update Entry for Tenant History by Id",
+            expectedInput: {},
+            sampleRequest: {
+              axiosThen: "response => console.log&lpar;response&rpar;",
+              axiosCatch: "err => console.error&lpar;err&rpar;",
+            }, 
+            expectedReturn: {},
+            expectedFailedReturn: "Expected Return if Fails."
+          }
+
+          outputContent = endPoints(input);
+          output(outputContent);
+        };
+
+        // Tenant History Endpoint - Update
+        function epTenantHistoryDelete() {
+          let input = {
+            header: "Tenant History Endpoint - Delete Entry",
+            todo: "",
+            comment: "",
+            endpoint: "/api/history/:id",
+            type: "delete",
+            description: "Delete Entry for Tenant History by Id",
+            expectedInput: {},
+            sampleRequest: {
+              axiosThen: "response => console.log&lpar;response&rpar;",
+              axiosCatch: "err => console.error&lpar;err&rpar;",
+            }, 
+            expectedReturn: {},
+            expectedFailedReturn: "Expected Return if Fails."
           }
 
           outputContent = endPoints(input);
